@@ -808,6 +808,18 @@ orderModalOverlay.addEventListener("click", (e) => {
   if (e.target === orderModalOverlay) closeOrderModal();
 });
 
+// Clear address error as soon as user starts typing
+const addressFieldInit = document.getElementById("customerAddress");
+const addressErrorInit = document.getElementById("addressError");
+if (addressFieldInit && addressErrorInit) {
+  addressFieldInit.addEventListener("input", () => {
+    if (addressFieldInit.value.trim()) {
+      addressFieldInit.classList.remove("invalid");
+      addressErrorInit.classList.remove("show");
+    }
+  });
+}
+
 
 /* ----- 12. PLACE ORDER — SAVE TO FIRESTORE REST API + WHATSAPP -----
    Uses REST API directly to bypass SDK WebSocket connection issues.   */
@@ -827,13 +839,29 @@ orderForm.addEventListener("submit", async (e) => {
 
   // Block duplicate submissions
   if (isSubmitting) return;
-  isSubmitting = true;
 
   const name    = document.getElementById("customerName").value.trim();
   const phone   = document.getElementById("customerPhone").value.trim();
   const address = document.getElementById("customerAddress").value.trim();
   const notes   = document.getElementById("customerNotes").value.trim();
   const total   = cart.reduce((sum, c) => sum + (c.price * c.count), 0);
+
+  // Validate: address is required
+  const addressField = document.getElementById("customerAddress");
+  const addressError = document.getElementById("addressError");
+
+  if (!address) {
+    addressField.classList.add("invalid");
+    addressError.classList.add("show");
+    addressField.focus();
+    return; // stop submission
+  }
+
+  // Clear any previous invalid state
+  addressField.classList.remove("invalid");
+  addressError.classList.remove("show");
+
+  isSubmitting = true;
 
   // Snapshot cart for confirmation display (cart will be cleared on success)
   const cartSnapshot = cart.map(c => ({ ...c }));

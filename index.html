@@ -432,8 +432,9 @@
           <input type="tel" id="customerPhone" placeholder="Enter phone number" required pattern="[0-9]{10}">
         </div>
         <div class="order-form-group">
-          <label for="customerAddress">Delivery Address</label>
-          <textarea id="customerAddress" placeholder="Enter delivery address (optional)" rows="2"></textarea>
+          <label for="customerAddress">Delivery Address *</label>
+          <textarea id="customerAddress" placeholder="Enter delivery address" rows="2" required></textarea>
+          <span class="field-error" id="addressError">Please enter delivery address</span>
         </div>
         <div class="order-form-group">
           <label for="customerNotes">Special Instructions</label>

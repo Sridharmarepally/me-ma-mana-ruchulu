@@ -2029,6 +2029,38 @@ button {
   border-color: var(--gold);
 }
 
+/* Invalid state — red border */
+.order-form-group input.invalid,
+.order-form-group textarea.invalid {
+  border-color: #D32F2F;
+  background: #FFF5F5;
+}
+
+.order-form-group input.invalid:focus,
+.order-form-group textarea.invalid:focus {
+  border-color: #D32F2F;
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15);
+}
+
+/* Inline field error message */
+.field-error {
+  display: none;
+  font-size: 0.75rem;
+  color: #D32F2F;
+  margin-top: 4px;
+  padding-left: 2px;
+}
+
+.field-error.show {
+  display: block;
+  animation: errorSlide 0.25s ease;
+}
+
+@keyframes errorSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .order-summary {
   background: var(--beige);
   border-radius: 10px;
