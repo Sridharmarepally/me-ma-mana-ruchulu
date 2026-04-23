@@ -120,8 +120,22 @@ function renderResult(order) {
   const customer = order.customer || {};
   const items = Array.isArray(order.items) ? order.items : [];
 
-  // Timeline progress: 1=pending, 2=preparing, 3=completed
-  const progress = status === "completed" ? 3 : status === "preparing" ? 2 : 1;
+  // Timeline progress: 1=pending, 2=preparing, 3=out_for_delivery, 4=delivered
+  const progress =
+      status === "delivered"        ? 4
+    : status === "completed"        ? 4
+    : status === "out_for_delivery" ? 3
+    : status === "preparing"        ? 2
+                                    : 1;
+
+  // Status label for the badge
+  const statusLabel =
+      status === "delivered"        ? "Delivered"
+    : status === "out_for_delivery" ? "Out for Delivery"
+    : status === "preparing"        ? "Preparing"
+    : status === "completed"        ? "Completed"
+    : status === "pending"          ? "Pending"
+                                    : status;
 
   let formattedTime = "";
   try {
@@ -146,10 +160,10 @@ function renderResult(order) {
     <div class="result-card">
       <div class="result-header">
         <span class="result-id">${order.orderId || "—"}</span>
-        <span class="result-status ${status}">${status}</span>
+        <span class="result-status ${status}">${statusLabel}</span>
       </div>
 
-      <div class="status-timeline" data-progress="${progress}">
+      <div class="status-timeline timeline-4" data-progress="${progress}">
         <div class="status-step ${progress >= 1 ? 'done' : ''} ${progress === 1 ? 'active' : ''}">
           <div class="status-dot">${progress >= 2 ? '✓' : '1'}</div>
           <div class="status-label">Order Received</div>
@@ -158,9 +172,13 @@ function renderResult(order) {
           <div class="status-dot">${progress >= 3 ? '✓' : '2'}</div>
           <div class="status-label">Preparing</div>
         </div>
-        <div class="status-step ${progress === 3 ? 'done' : ''}">
-          <div class="status-dot">${progress === 3 ? '✓' : '3'}</div>
-          <div class="status-label">Completed</div>
+        <div class="status-step ${progress >= 3 ? (progress === 3 ? 'active' : 'done') : ''}">
+          <div class="status-dot">${progress >= 4 ? '✓' : '3'}</div>
+          <div class="status-label">Out for Delivery</div>
+        </div>
+        <div class="status-step ${progress === 4 ? 'done' : ''}">
+          <div class="status-dot">${progress === 4 ? '✓' : '4'}</div>
+          <div class="status-label">Delivered</div>
         </div>
       </div>
 

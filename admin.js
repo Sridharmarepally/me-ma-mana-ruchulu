@@ -262,7 +262,7 @@ if (isDashboardPage) {
       const status = o.status || "pending";
       revenue += Number(o.total || 0);
       if (status === "pending") pendingCount++;
-      if (status === "completed") completedCount++;
+      if (status === "completed" || status === "delivered") completedCount++;
       if (isToday(o.createdAt)) todayCount++;
     });
 
@@ -369,13 +369,20 @@ if (isDashboardPage) {
           time = "Unknown time";
         }
 
-        const statusClass = status === "completed" ? "status-done"
-          : status === "preparing" ? "status-prep"
-            : "status-pending";
+        // Status class + label (supports new delivery flow)
+        const statusClass =
+            status === "delivered"         ? "status-delivered"
+          : status === "out_for_delivery"  ? "status-ofd"
+          : status === "preparing"         ? "status-prep"
+          : status === "completed"         ? "status-delivered"
+                                           : "status-pending";
 
-        const statusLabel = status === "completed" ? "Completed"
-          : status === "preparing" ? "Preparing"
-            : "Pending";
+        const statusLabel =
+            status === "delivered"         ? "Delivered"
+          : status === "out_for_delivery"  ? "Out for Delivery"
+          : status === "preparing"         ? "Preparing"
+          : status === "completed"         ? "Completed"
+                                           : "Pending";
 
         const itemsHtml = items.map(item =>
           `<div class="order-item-row">
@@ -448,8 +455,11 @@ if (isDashboardPage) {
               <button class="status-btn prep-btn" onclick="updateStatus('${orderId}', 'preparing')" ${status !== 'pending' ? 'disabled' : ''}>
                 Start Preparing
               </button>
-              <button class="status-btn done-btn" onclick="updateStatus('${orderId}', 'completed')" ${status !== 'preparing' ? 'disabled' : ''}>
-                Mark as Completed
+              <button class="status-btn ofd-btn" onclick="updateStatus('${orderId}', 'out_for_delivery')" ${status !== 'preparing' ? 'disabled' : ''}>
+                Out for Delivery
+              </button>
+              <button class="status-btn done-btn" onclick="updateStatus('${orderId}', 'delivered')" ${status !== 'out_for_delivery' ? 'disabled' : ''}>
+                Mark as Delivered
               </button>
               <button class="status-btn notify-btn"
                 onclick="notifyCustomer('${customerName.replace(/'/g, "\\'")}', '${customerPhone}', '${status}')"
@@ -567,9 +577,11 @@ function notifyCustomer(name, phone, status) {
 
   // Status-specific friendly messages
   const statusLabels = {
-    pending:    "received and is pending confirmation",
-    preparing:  "being prepared now",
-    completed:  "ready / completed"
+    pending:          "received and is pending confirmation",
+    preparing:        "being prepared — your order is being prepared",
+    out_for_delivery: "on the way — your order is out for delivery",
+    delivered:        "delivered — thank you for ordering with us!",
+    completed:        "completed"
   };
   const statusText = statusLabels[status] || status;
 

@@ -268,11 +268,20 @@
   color: #E65100;
 }
 
+/* Preparing → yellow */
 .result-status.preparing {
+  background: #FFF9C4;
+  color: #B57900;
+}
+
+/* Out for delivery → blue */
+.result-status.out_for_delivery {
   background: #E3F2FD;
   color: #1565C0;
 }
 
+/* Delivered / Completed → green */
+.result-status.delivered,
 .result-status.completed {
   background: #E8F5E9;
   color: #2E7D32;
@@ -362,6 +371,12 @@
 .status-timeline[data-progress="1"]::after { width: 0; }
 .status-timeline[data-progress="2"]::after { width: 34%; }
 .status-timeline[data-progress="3"]::after { width: 68%; }
+
+/* 4-step timeline (new delivery flow) */
+.timeline-4[data-progress="1"]::after { width: 0; }
+.timeline-4[data-progress="2"]::after { width: 23%; }
+.timeline-4[data-progress="3"]::after { width: 46%; }
+.timeline-4[data-progress="4"]::after { width: 68%; }
 
 /* Order details */
 .result-section {
