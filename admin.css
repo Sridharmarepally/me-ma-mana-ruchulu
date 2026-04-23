@@ -795,7 +795,100 @@ body {
 .order-address {
   font-size: 0.78rem;
   color: var(--text-body);
-  margin-bottom: 8px;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Address + action row (Copy / Maps) */
+.order-address-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.address-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.addr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--maroon);
+  background: var(--beige);
+  border: 1px solid var(--beige-dark);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.addr-btn:hover {
+  background: var(--maroon);
+  color: var(--white);
+  border-color: var(--maroon);
+}
+
+.addr-btn svg {
+  flex-shrink: 0;
+}
+
+/* Phone row with copy button */
+.phone-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: var(--maroon);
+  background: var(--beige);
+}
+
+/* Toast notification */
+.admin-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background: #2E7D32;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 2000;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.admin-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .order-items-list {

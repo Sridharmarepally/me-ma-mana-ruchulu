@@ -387,12 +387,26 @@ if (isDashboardPage) {
         const card = document.createElement("div");
         card.className = "order-card";
         card.setAttribute("data-order-id", orderId);
+        // Safe-encode for JS string attributes
+        const safeAddr  = customerAddr.replace(/'/g, "\\'").replace(/\n/g, " ");
+        const safePhone = customerPhone.replace(/'/g, "\\'");
+
         card.innerHTML = `
           <div class="order-card-top">
             <div class="order-customer">
               <strong>${customerName}</strong>
               ${customerPhone !== "N/A"
-                ? `<a href="tel:${customerPhone}" class="order-phone">${customerPhone}</a>`
+                ? `<div class="phone-row">
+                     <a href="tel:${customerPhone}" class="order-phone">${customerPhone}</a>
+                     <button class="icon-btn copy-phone-btn"
+                       onclick="copyToClipboard('${safePhone}', 'Phone copied!')"
+                       title="Copy phone number">
+                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                         <rect x="9" y="9" width="13" height="13" rx="2"/>
+                         <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                       </svg>
+                     </button>
+                   </div>`
                 : `<span class="order-phone">No phone</span>`
               }
             </div>
@@ -401,7 +415,31 @@ if (isDashboardPage) {
               <span class="order-status ${statusClass}">${statusLabel}</span>
             </div>
           </div>
-          ${customerAddr ? `<p class="order-address">📍 ${customerAddr}</p>` : ""}
+          ${customerAddr ? `
+            <div class="order-address-row">
+              <p class="order-address">📍 ${customerAddr}</p>
+              <div class="address-actions">
+                <button class="addr-btn copy-addr-btn"
+                  onclick="copyToClipboard('${safeAddr}', 'Address copied!')"
+                  title="Copy address">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                  </svg>
+                  Copy
+                </button>
+                <a class="addr-btn maps-btn"
+                  href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(customerAddr)}"
+                  target="_blank" rel="noopener" title="Open in Google Maps">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Maps
+                </a>
+              </div>
+            </div>
+          ` : ""}
           <div class="order-items-list">${itemsHtml}</div>
           ${notes ? `<p class="order-notes">📝 ${notes}</p>` : ""}
           <div class="order-card-bottom">
@@ -547,6 +585,72 @@ function notifyCustomer(name, phone, status) {
 /* ----- 8. DELETE ORDER -----
    Shows confirmation dialog, then deletes the order
    from Firestore via REST API DELETE.               */
+
+/* ----- 9. COPY TO CLIPBOARD + TOAST -----
+   Copies text using Clipboard API with fallback
+   for older browsers / HTTP contexts.            */
+
+function copyToClipboard(text, message) {
+  const successMsg = message || "Copied!";
+
+  // Modern Clipboard API (secure contexts / HTTPS)
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(successMsg))
+      .catch(() => fallbackCopy(text, successMsg));
+  } else {
+    fallbackCopy(text, successMsg);
+  }
+}
+
+// Fallback for browsers without Clipboard API
+function fallbackCopy(text, message) {
+  try {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.top = "0";
+    textarea.style.left = "0";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    const success = document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    if (success) {
+      showToast(message);
+    } else {
+      alert("Could not copy. Please copy manually:\n\n" + text);
+    }
+  } catch (err) {
+    alert("Could not copy. Please copy manually:\n\n" + text);
+  }
+}
+
+// Lightweight toast for copy feedback
+function showToast(message) {
+  // Remove any existing toast
+  const existing = document.getElementById("adminToast");
+  if (existing) existing.remove();
+
+  const toast = document.createElement("div");
+  toast.id = "adminToast";
+  toast.className = "admin-toast";
+  toast.textContent = "✓ " + message;
+  document.body.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() => toast.classList.add("show"));
+
+  // Auto-dismiss after 2s
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
+}
+
 
 function deleteOrder(orderId, customerName) {
   const name = customerName || "this customer";
