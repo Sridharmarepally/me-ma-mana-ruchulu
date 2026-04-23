@@ -306,6 +306,7 @@ if (isDashboardPage) {
 
         const card = document.createElement("div");
         card.className = "order-card";
+        card.setAttribute("data-order-id", orderId);
         card.innerHTML = `
           <div class="order-card-top">
             <div class="order-customer">
@@ -327,10 +328,10 @@ if (isDashboardPage) {
             <span class="order-total">Total: ₹${total}</span>
             <div class="order-actions">
               <button class="status-btn prep-btn" onclick="updateStatus('${orderId}', 'preparing')" ${status !== 'pending' ? 'disabled' : ''}>
-                Preparing
+                Start Preparing
               </button>
-              <button class="status-btn done-btn" onclick="updateStatus('${orderId}', 'completed')" ${status === 'completed' ? 'disabled' : ''}>
-                Done
+              <button class="status-btn done-btn" onclick="updateStatus('${orderId}', 'completed')" ${status !== 'preparing' ? 'disabled' : ''}>
+                Mark as Completed
               </button>
             </div>
           </div>
@@ -349,7 +350,8 @@ if (isDashboardPage) {
 
   function listenToOrders() {
     fetchOrders();
-    setInterval(fetchOrders, 15000);
+    // Poll every 5 seconds for near real-time updates
+    setInterval(fetchOrders, 5000);
   }
 }
 
@@ -358,6 +360,12 @@ if (isDashboardPage) {
    Called from status buttons in order cards.    */
 
 function updateStatus(orderId, newStatus) {
+  // Instant UI update — update the card's status badge immediately
+  const card = document.querySelector(`[data-order-id="${orderId}"]`);
+  if (card) {
+    card.classList.add("updating");
+  }
+
   const url = `https://firestore.googleapis.com/v1/projects/me-ma-mana-ruchulu/databases/(default)/documents/orders/${orderId}?updateMask.fieldPaths=status`;
 
   fetch(url, {
@@ -372,10 +380,13 @@ function updateStatus(orderId, newStatus) {
   .then(res => {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     console.log("✅ Status updated to:", newStatus);
+    // Refresh order list immediately to reflect the change
     if (window._fetchOrders) window._fetchOrders();
   })
   .catch(error => {
-    alert("Failed to update status: " + error.message);
+    console.error("❌ Status update failed:", error.message);
+    alert("Failed to update status. Please check your connection and try again.\n\nError: " + error.message);
+    if (card) card.classList.remove("updating");
   });
 }
 

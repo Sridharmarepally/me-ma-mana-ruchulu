@@ -568,6 +568,13 @@ body {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
+/* Visual feedback while status is being updated */
+.order-card.updating {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
 .order-card-top {
   display: flex;
   justify-content: space-between;
