@@ -225,7 +225,7 @@ if (isDashboardPage) {
     const fields = doc.fields || {};
     const data = {};
     for (const key in fields) data[key] = parseValue(fields[key]);
-    data._id = doc.name.split("/").pop();
+    data.id = doc.name.split("/").pop();
     return data;
   }
 
@@ -298,8 +298,12 @@ if (isDashboardPage) {
         const customer = o.customer || {};
         const name    = String(customer.name  || "").toLowerCase();
         const phone   = String(customer.phone || "").toLowerCase();
-        const orderId = String(o.orderId || o._id || "").toLowerCase();
-        if (!name.includes(query) && !phone.includes(query) && !orderId.includes(query)) return false;
+        const docId   = String(o.id      || "").toLowerCase();
+        const humanId = String(o.orderId || "").toLowerCase();
+        if (!name.includes(query) &&
+            !phone.includes(query) &&
+            !docId.includes(query) &&
+            !humanId.includes(query)) return false;
       }
 
       return true;
@@ -345,7 +349,7 @@ if (isDashboardPage) {
     ordersList.innerHTML = "";
 
       orders.forEach(order => {
-        const orderId = order._id;
+        const orderId = order.id;
 
         // Safe fallbacks
         const customer      = order.customer || {};
