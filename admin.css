@@ -29,10 +29,17 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   font-family: 'Poppins', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 
@@ -1051,6 +1058,163 @@ body {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+
+/* Tablet + small screens */
+@media (max-width: 768px) {
+  .admin-main {
+    padding: 20px 14px;
+    max-width: 100%;
+  }
+
+  /* Stack toolbar vertically */
+  .orders-toolbar {
+    flex-direction: column;
+  }
+
+  .search-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .filter-group {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .filter-select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Order cards full width, no overflow */
+  .order-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 16px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Customer block wraps cleanly */
+  .order-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .order-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Action buttons: 2 per row on mobile */
+  .order-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .order-card-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .status-btn {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.72rem;
+    justify-content: center;
+  }
+
+  /* Address block stays within card */
+  .order-address {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .address-actions {
+    width: 100%;
+  }
+
+  .addr-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Summary cards smaller on tablet */
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .summary-value {
+    font-size: 1.3rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .admin-header {
+    padding: 10px 12px;
+  }
+
+  .admin-brand {
+    font-size: 0.85rem;
+  }
+
+  .admin-label {
+    font-size: 0.58rem;
+  }
+
+  .admin-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .admin-main {
+    padding: 16px 10px;
+  }
+
+  .welcome-card {
+    padding: 18px 16px;
+    margin-bottom: 18px;
+  }
+
+  .welcome-card h2 {
+    font-size: 1.05rem;
+  }
+
+  /* Action buttons: stay 2 per row but tighter */
+  .order-actions {
+    gap: 5px;
+  }
+
+  .status-btn {
+    padding: 7px 6px;
+    font-size: 0.68rem;
+  }
+
+  .status-btn svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* Order items can wrap */
+  .order-item-row {
+    flex-wrap: wrap;
+  }
+
+  /* Summary cards single value gets smaller */
+  .summary-value {
+    font-size: 1.15rem;
+  }
+
+  .summary-label {
+    font-size: 0.65rem;
+  }
+}
 
 @media (max-width: 640px) {
   .login-container {
