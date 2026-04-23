@@ -58,6 +58,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -68,6 +69,8 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  width: 100%;
+  max-width: 100vw;
 }
 
 a {
@@ -1155,6 +1158,7 @@ button {
   padding: 100px 0;
   background:
     linear-gradient(180deg, var(--beige) 0%, var(--cream) 50%, var(--beige) 100%);
+  overflow: hidden;
 }
 
 /* Subtle texture for contact section */
@@ -1252,6 +1256,7 @@ button {
   color: rgba(255, 255, 255, 0.7);
   padding: 56px 0 36px;
   text-align: center;
+  overflow: hidden;
 }
 
 .footer-content {
@@ -2196,6 +2201,36 @@ button {
    Covers all phones including larger ones like iPhone Pro Max
    ============================================================ */
 @media (max-width: 576px) {
+  /* ---- OVERFLOW PREVENTION: Universal safety net ---- */
+  *,
+  *::before,
+  *::after {
+    max-width: 100%;
+  }
+
+  section,
+  header,
+  footer,
+  main,
+  .hero,
+  .menu-section,
+  .contact-section,
+  .footer {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Clamp blob edges on mobile so they don't push viewport */
+  .blob { max-width: 90vw; }
+
+  /* Rangoli motifs stay inside viewport */
+  .rangoli-motif { max-width: 90vw; }
+
   /* ---- PERFORMANCE: Kill all heavy effects ---- */
   .menu-blobs, .menu-spotlight, .rangoli-layer { display: none; }
   .menu-section::after { display: none; }
