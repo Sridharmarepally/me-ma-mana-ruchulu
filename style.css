@@ -979,9 +979,15 @@ button {
 .card-img-wrapper {
   width: 100%;
   height: 190px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   position: relative;
   background: var(--beige-dark);
+}
+
+/* Browsers that support aspect-ratio ignore fixed height */
+@supports (aspect-ratio: 4 / 3) {
+  .card-img-wrapper { height: auto; }
 }
 
 .card-img-wrapper::after {
@@ -1013,7 +1019,9 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: block;
 }
 
 /* Zoom image on card hover */
@@ -2494,7 +2502,13 @@ button {
     gap: 16px;
   }
 
-  .card-img-wrapper { height: 160px; }
+  /* Tablet: aspect-ratio keeps shape, fallback for old browsers */
+  .card-img-wrapper {
+    height: auto;
+    min-height: 140px;
+    max-height: 200px;
+    aspect-ratio: 4 / 3;
+  }
 
   /* Filter buttons — horizontal scroll on smaller tablets */
   .filter-bar {
@@ -2647,7 +2661,18 @@ button {
     gap: 16px;
   }
 
-  .card-img-wrapper { height: 180px; }
+  /* Mobile (576px and below): larger image area since single column has more width */
+  .card-img-wrapper {
+    height: auto;
+    min-height: 180px;
+    max-height: 260px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .card-img {
+    object-fit: cover;
+    object-position: center;
+  }
 
   /* Card footer — stack qty + button */
   .card-footer-row { flex-direction: column; gap: 8px; }
@@ -2713,7 +2738,12 @@ button {
   .hero-subtitle { font-size: 0.7rem; }
   .brand-name { font-size: 0.8rem; }
   .section-title { font-size: 1.15rem; }
-  .card-img-wrapper { height: 160px; }
+  .card-img-wrapper {
+    height: auto;
+    min-height: 160px;
+    max-height: 220px;
+    aspect-ratio: 16 / 10;
+  }
   .hero-buttons .btn { width: 90%; font-size: 0.8rem; }
 }
 
