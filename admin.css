@@ -715,6 +715,29 @@ body {
   background: #C8E6C9;
 }
 
+/* WhatsApp notify button */
+.notify-btn {
+  background: #25D366;
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.notify-btn:hover:not(:disabled) {
+  background: #1EBE57;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
+}
+
+.notify-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+}
+
+.notify-btn svg {
+  flex-shrink: 0;
+}
+
 
 /* ============================================================
    RESPONSIVE
