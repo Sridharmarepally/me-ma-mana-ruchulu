@@ -57,16 +57,17 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: 'Poppins', 'Segoe UI', sans-serif;
   background: linear-gradient(180deg, var(--beige) 0%, #FFF3DC 50%, var(--beige) 100%);
-  background-attachment: fixed;
   color: var(--text-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 a {
@@ -2134,287 +2135,220 @@ button {
 /* ----- 19. RESPONSIVE DESIGN -----
    Breakpoints for tablets and phones.    */
 
-/* Tablets & small desktops */
+/* ============================================================
+   TABLETS (max-width: 768px)
+   ============================================================ */
 @media (max-width: 768px) {
-  /* Show hamburger, hide desktop nav */
-  .nav {
-    display: none;
-  }
+  /* Navigation */
+  .nav { display: none; }
+  .mobile-menu-btn { display: flex; }
 
-  .mobile-menu-btn {
-    display: flex;
-  }
+  /* Hero */
+  .hero-title { font-size: 2rem; }
+  .hero-subtitle { font-size: 0.95rem; }
+  .hero-logo { width: 110px; height: 110px; }
+  .hero-description { font-size: 0.9rem; }
 
-  /* Hero adjustments */
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .hero-logo {
-    width: 110px;
-    height: 110px;
-  }
-
-  .hero-description {
-    font-size: 0.9rem;
-  }
-
-  /* Smaller section titles */
-  .section-title {
-    font-size: 1.6rem;
-  }
+  /* Sections */
+  .section-title { font-size: 1.6rem; }
+  .menu-section, .contact-section { padding: 70px 0; }
 
   /* Menu grid: 2 columns */
   .menu-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
 
-  .card-img-wrapper {
-    height: 160px;
-  }
+  .card-img-wrapper { height: 160px; }
 
-  /* Smaller filter buttons */
-  .filter-btn {
+  /* Filter buttons — horizontal scroll on smaller tablets */
+  .filter-bar {
     padding: 8px 18px;
     font-size: 0.8rem;
   }
 
-  /* Stack contact cards */
+  /* Contact cards stack */
   .contact-cards {
     grid-template-columns: 1fr;
     max-width: 400px;
   }
 
   /* Buttons */
-  .btn {
-    padding: 11px 24px;
-    font-size: 0.85rem;
-  }
+  .btn { padding: 11px 24px; font-size: 0.85rem; }
 
-  /* Section padding */
-  .menu-section,
-  .contact-section {
-    padding: 70px 0;
-  }
+  /* Floating buttons */
+  .back-to-top { width: 40px; height: 40px; bottom: 90px; right: 20px; }
+  .cart-float { width: 50px; height: 50px; bottom: 24px; left: 20px; }
 
-  .back-to-top {
-    width: 40px;
-    height: 40px;
-    bottom: 90px;
-    right: 20px;
-  }
-
-  /* Reduce blob sizes on tablet */
+  /* Performance: reduce decorative effects */
   .blob { filter: blur(40px); }
-  .hero-blobs .blob-4,
-  .hero-blobs .blob-5 { display: none; }
-  .menu-blobs .blob-e,
-  .menu-blobs .blob-f,
-  .menu-blobs .blob-g { display: none; }
+  .hero-blobs .blob-4, .hero-blobs .blob-5 { display: none; }
+  .menu-blobs .blob-e, .menu-blobs .blob-f, .menu-blobs .blob-g { display: none; }
   .menu-spotlight { width: 95%; filter: blur(30px); }
-
-  /* Hide smaller motifs on tablet */
   .motif-ml, .motif-mr, .motif-ct { display: none; }
   .motif-tl { width: 200px; height: 200px; }
   .motif-br { width: 220px; height: 220px; }
-
-  /* Cart/modal adjustments for tablet */
-  .cart-float {
-    width: 50px;
-    height: 50px;
-    bottom: 24px;
-    left: 20px;
-  }
 }
 
-/* Mobile phones */
+
+/* ============================================================
+   MOBILE PHONES (max-width: 480px)
+   ============================================================ */
 @media (max-width: 480px) {
-  .cart-float {
-    width: 48px;
-    height: 48px;
-    bottom: 20px;
-    left: 16px;
-  }
-
-  .cart-float svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .cart-drawer {
-    width: 100vw;
-    max-width: 100vw;
-  }
-
-  .order-modal {
-    border-radius: 12px;
-    max-height: 95vh;
-  }
-
-  .card-footer-row {
-    flex-direction: column;
-  }
-
-  .qty-select,
-  .add-cart-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .header-content {
-    height: 60px;
-  }
-
-  .logo-img {
-    width: 38px;
-    height: 38px;
-  }
-
-  .brand-name {
-    font-size: 0.95rem;
-  }
-
-  .brand-tagline {
-    font-size: 0.6rem;
-  }
-
-  html {
-    scroll-padding-top: 60px;
-  }
-
-  .hero-content {
-    padding: 100px 16px 60px;
-  }
-
-  .hero-title {
-    font-size: 1.6rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-  }
-
-  .hero-logo {
-    width: 90px;
-    height: 90px;
-  }
-
-  .hero-description {
-    font-size: 0.85rem;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-badges {
-    gap: 8px;
-  }
-
-  .badge {
-    font-size: 0.65rem;
-    padding: 5px 12px;
-  }
-
-  /* Single column menu grid */
-  .menu-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card-img-wrapper {
-    height: 200px;
-  }
-
-  .filter-bar {
-    gap: 6px;
-  }
-
-  .filter-btn {
-    padding: 7px 14px;
-    font-size: 0.75rem;
-  }
-
-  .section-title {
-    font-size: 1.4rem;
-  }
-
-  .section-subtitle {
-    font-size: 0.85rem;
-  }
-
-  .menu-section,
-  .contact-section {
-    padding: 56px 0;
-  }
-
-  .back-to-top {
-    width: 38px;
-    height: 38px;
-    bottom: 82px;
-    right: 16px;
-  }
-
-  .back-to-top svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* Float button smaller on mobile */
-  .whatsapp-float {
-    width: 52px;
-    height: 52px;
-    bottom: 20px;
-    right: 16px;
-  }
-
-  .whatsapp-float svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .whatsapp-tooltip {
-    display: none;
-  }
-
-  /* Disable 3D tilt on touch devices */
-  .menu-card.tilt {
-    transform: none !important;
-  }
-
-  /* Simpler effects on mobile */
-  .menu-blobs { display: none; }
-  .menu-spotlight { display: none; }
+  /* ---- PERFORMANCE: Kill all heavy effects ---- */
+  .menu-blobs, .menu-spotlight, .rangoli-layer { display: none; }
   .menu-section::after { display: none; }
-  .rangoli-layer { display: none; }
-  .hero-blobs .blob-3,
-  .hero-blobs .blob-4,
-  .hero-blobs .blob-5 { display: none; }
+  .hero-blobs .blob-3, .hero-blobs .blob-4, .hero-blobs .blob-5 { display: none; }
+  .card-img-wrapper::after { display: none; }
+  .contact-icon { animation: none; }
+  .menu-card.tilt { transform: none !important; }
 
-  /* Disable parallax on mobile */
-  .hero-blobs,
-  .hero-overlay,
-  [data-parallax-content] {
+  /* Disable parallax completely */
+  .hero-blobs, .hero-overlay, [data-parallax-content] {
     will-change: auto !important;
     transform: none !important;
   }
 
-  /* No wave dividers on small screens */
-  .wave-divider svg { height: 40px; }
+  /* Disable backdrop-filter on cards (heavy on mobile GPU) */
+  .menu-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 
-  /* Reduce motion for performance */
-  .card-img-wrapper::after { display: none; }
+  .filter-btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.9);
+  }
 
-  .contact-icon { animation: none; }
+  /* ---- HEADER ---- */
+  .header-content { height: 60px; }
+  .logo-img { width: 36px; height: 36px; }
+  .brand-name { font-size: 0.9rem; }
+  .brand-tagline { font-size: 0.55rem; }
+  html { scroll-padding-top: 60px; }
+
+  /* ---- HERO ---- */
+  .hero-content { padding: 90px 16px 50px; }
+  .hero-logo { width: 85px; height: 85px; }
+  .hero-title { font-size: 1.5rem; }
+  .hero-subtitle { font-size: 0.75rem; letter-spacing: 1px; }
+  .hero-description { font-size: 0.82rem; margin-bottom: 28px; }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-buttons .btn { width: 80%; justify-content: center; }
+  .hero-badges { gap: 6px; }
+  .badge { font-size: 0.6rem; padding: 4px 10px; }
+
+  /* ---- SECTIONS ---- */
+  .section-title { font-size: 1.3rem; }
+  .section-subtitle { font-size: 0.82rem; }
+  .section-header { margin-bottom: 32px; }
+  .menu-section, .contact-section { padding: 48px 0; }
+  .container { padding: 0 16px; }
+
+  /* ---- FILTER BAR: horizontal scroll ---- */
+  .filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    padding: 8px 16px;
+    font-size: 0.73rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ---- MENU GRID: single column ---- */
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card-img-wrapper { height: 180px; }
+
+  /* Card footer — stack qty + button */
+  .card-footer-row { flex-direction: column; gap: 8px; }
+  .qty-select, .add-cart-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  /* ---- CONTACT CARDS ---- */
+  .contact-cards { gap: 14px; }
+  .contact-card { padding: 24px 18px; }
+
+  /* ---- FLOATING BUTTONS ---- */
+  .cart-float {
+    width: 46px; height: 46px;
+    bottom: 18px; left: 16px;
+  }
+  .cart-float svg { width: 20px; height: 20px; }
+
+  .whatsapp-float {
+    width: 50px; height: 50px;
+    bottom: 18px; right: 16px;
+  }
+  .whatsapp-float svg { width: 22px; height: 22px; }
+  .whatsapp-tooltip { display: none; }
+
+  .back-to-top {
+    width: 36px; height: 36px;
+    bottom: 78px; right: 16px;
+  }
+  .back-to-top svg { width: 15px; height: 15px; }
+
+  /* ---- CART DRAWER: full width on mobile ---- */
+  .cart-drawer { width: 100vw; max-width: 100vw; }
+
+  /* ---- ORDER MODAL ---- */
+  .order-modal {
+    border-radius: 12px;
+    max-height: 92vh;
+    margin: 0 8px;
+  }
+  .order-form { padding: 16px 18px; }
+
+  /* ---- WAVE DIVIDERS smaller ---- */
+  .wave-divider svg { height: 35px; }
+
+  /* ---- FOOTER ---- */
+  .footer { padding: 36px 0 24px; }
+  .footer-logo { width: 40px; height: 40px; }
+  .footer-name { font-size: 0.95rem; }
+  .footer-links { gap: 16px; }
+  .footer-links a { font-size: 0.8rem; }
 }
 
-/* Respect reduced motion preference */
+
+/* ============================================================
+   VERY SMALL PHONES (max-width: 360px)
+   ============================================================ */
+@media (max-width: 360px) {
+  .hero-title { font-size: 1.3rem; }
+  .hero-logo { width: 70px; height: 70px; }
+  .hero-subtitle { font-size: 0.7rem; }
+  .brand-name { font-size: 0.8rem; }
+  .section-title { font-size: 1.15rem; }
+  .card-img-wrapper { height: 160px; }
+  .hero-buttons .btn { width: 90%; font-size: 0.8rem; }
+}
+
+
+/* ============================================================
+   REDUCED MOTION PREFERENCE
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
