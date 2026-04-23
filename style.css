@@ -2222,7 +2222,6 @@ button {
   .motif-ml, .motif-mr, .motif-ct { display: none; }
   .motif-tl { width: 200px; height: 200px; }
   .motif-br { width: 220px; height: 220px; }
-}
 
   /* Cart/modal adjustments for tablet */
   .cart-float {
