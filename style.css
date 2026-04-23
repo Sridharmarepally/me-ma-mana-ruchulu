@@ -2359,6 +2359,21 @@ button {
   color: var(--maroon);
 }
 
+.confirm-btn-track {
+  background: var(--white);
+  color: var(--maroon);
+  border: 1.5px solid var(--maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.confirm-btn-track:hover {
+  background: var(--maroon);
+  color: var(--white);
+}
+
 
 .order-toast {
   position: fixed;

@@ -925,11 +925,17 @@ const confirmItemsEl    = document.getElementById("confirmItems");
 const confirmTotalEl    = document.getElementById("confirmTotal");
 const confirmOrderAgain = document.getElementById("confirmOrderAgain");
 const confirmGoHome     = document.getElementById("confirmGoHome");
+const confirmTrackBtn   = document.getElementById("confirmTrackBtn");
 
 function showConfirmation({ orderId, name, items, total }) {
   confirmOrderIdEl.textContent = orderId;
   confirmCustName.textContent  = name;
   confirmTotalEl.textContent   = "₹" + total;
+
+  // Link track button directly to this order
+  if (confirmTrackBtn) {
+    confirmTrackBtn.href = `track-order.html?id=${encodeURIComponent(orderId)}`;
+  }
 
   confirmItemsEl.innerHTML = items.map(item =>
     `<div class="confirm-item-row">
