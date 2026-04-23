@@ -274,9 +274,18 @@ orderInput.addEventListener("input", () => {
   orderInput.setSelectionRange(pos, pos);
 });
 
-// Support ?id=MMR-XXX in URL (for linking from confirmation modal later)
+// Auto-fill order ID from URL param OR localStorage (priority: URL > storage)
 const urlOrderId = new URLSearchParams(window.location.search).get("id");
-if (urlOrderId) {
-  orderInput.value = urlOrderId.toUpperCase();
-  trackForm.dispatchEvent(new Event("submit"));
+let savedOrderId = null;
+try {
+  savedOrderId = localStorage.getItem("lastOrderId");
+} catch (e) {}
+
+const autoFillId = urlOrderId || savedOrderId;
+if (autoFillId) {
+  orderInput.value = autoFillId.toUpperCase();
+  // Auto-submit only if from URL (user explicitly clicked a link)
+  if (urlOrderId) {
+    trackForm.dispatchEvent(new Event("submit"));
+  }
 }

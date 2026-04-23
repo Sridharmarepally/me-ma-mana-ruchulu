@@ -2289,6 +2289,31 @@ button {
   font-family: 'Courier New', monospace;
 }
 
+.confirm-copy-id {
+  background: none;
+  border: none;
+  color: #2E7D32;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.confirm-copy-id:hover {
+  background: rgba(46, 125, 50, 0.15);
+}
+
+.confirm-copy-id.copied {
+  transform: scale(1.2);
+  color: #1B5E20;
+}
+
+.confirm-copy-id.copied svg {
+  stroke: #1B5E20;
+}
+
 /* Order details section */
 .confirm-details {
   text-align: left;

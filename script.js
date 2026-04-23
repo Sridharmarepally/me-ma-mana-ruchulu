@@ -947,6 +947,11 @@ orderForm.addEventListener("submit", async (e) => {
     orderForm.reset();
     closeOrderModal();
 
+    // Save order ID so Track page can auto-fill
+    try {
+      localStorage.setItem("lastOrderId", orderId);
+    } catch (e) {}
+
     // Show confirmation modal with all order details
     showConfirmation({
       orderId,
@@ -983,6 +988,38 @@ const confirmTotalEl    = document.getElementById("confirmTotal");
 const confirmOrderAgain = document.getElementById("confirmOrderAgain");
 const confirmGoHome     = document.getElementById("confirmGoHome");
 const confirmTrackBtn   = document.getElementById("confirmTrackBtn");
+const confirmCopyId     = document.getElementById("confirmCopyId");
+
+// Copy Order ID to clipboard
+if (confirmCopyId) {
+  confirmCopyId.addEventListener("click", () => {
+    const orderId = confirmOrderIdEl.textContent;
+    if (!orderId || orderId === "—") return;
+
+    const copy = navigator.clipboard && navigator.clipboard.writeText
+      ? navigator.clipboard.writeText(orderId)
+      : Promise.reject();
+
+    copy.then(() => {
+      confirmCopyId.classList.add("copied");
+      confirmCopyId.setAttribute("title", "Copied!");
+      setTimeout(() => {
+        confirmCopyId.classList.remove("copied");
+        confirmCopyId.setAttribute("title", "Copy Order ID");
+      }, 1500);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement("textarea");
+      ta.value = orderId;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      confirmCopyId.classList.add("copied");
+      setTimeout(() => confirmCopyId.classList.remove("copied"), 1500);
+    });
+  });
+}
 
 function showConfirmation({ orderId, name, items, total }) {
   confirmOrderIdEl.textContent = orderId;
