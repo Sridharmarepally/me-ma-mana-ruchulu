@@ -808,12 +808,12 @@ orderModalOverlay.addEventListener("click", (e) => {
   if (e.target === orderModalOverlay) closeOrderModal();
 });
 
-// Clear address error as soon as user starts typing
+// Clear address error once the input becomes valid
 const addressFieldInit = document.getElementById("customerAddress");
 const addressErrorInit = document.getElementById("addressError");
 if (addressFieldInit && addressErrorInit) {
   addressFieldInit.addEventListener("input", () => {
-    if (addressFieldInit.value.trim()) {
+    if (!validateAddress(addressFieldInit.value)) {
       addressFieldInit.classList.remove("invalid");
       addressErrorInit.classList.remove("show");
     }
@@ -831,6 +831,33 @@ function generateOrderId() {
   return `MMR-${timestamp}${random}`;
 }
 
+// Validate delivery address — returns error message string, or "" if valid
+function validateAddress(addr) {
+  const trimmed = (addr || "").trim();
+
+  if (!trimmed) {
+    return "Please enter delivery address";
+  }
+  if (trimmed.length < 10) {
+    return "Address too short — please include more details";
+  }
+
+  // Smart check: must contain at least one address keyword
+  const keywords = [
+    "house", "street", "road", "colony", "nagar", "area",
+    "flat", "apt", "apartment", "sector", "block", "lane",
+    "gali", "village", "city", "town", "pin", "near"
+  ];
+  const lower = trimmed.toLowerCase();
+  const hasKeyword = keywords.some(k => lower.includes(k));
+
+  if (!hasKeyword) {
+    return "Please enter full address with area details";
+  }
+
+  return ""; // valid
+}
+
 // Prevent double-submission
 let isSubmitting = false;
 
@@ -846,11 +873,13 @@ orderForm.addEventListener("submit", async (e) => {
   const notes   = document.getElementById("customerNotes").value.trim();
   const total   = cart.reduce((sum, c) => sum + (c.price * c.count), 0);
 
-  // Validate: address is required
+  // Validate: address is required + meaningful
   const addressField = document.getElementById("customerAddress");
   const addressError = document.getElementById("addressError");
 
-  if (!address) {
+  const addressErrorMessage = validateAddress(address);
+  if (addressErrorMessage) {
+    addressError.textContent = addressErrorMessage;
     addressField.classList.add("invalid");
     addressError.classList.add("show");
     addressField.focus();

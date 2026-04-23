@@ -2042,6 +2042,16 @@ button {
   box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15);
 }
 
+/* Helper hint under field */
+.field-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  margin-top: 4px;
+  padding-left: 2px;
+  font-style: italic;
+}
+
 /* Inline field error message */
 .field-error {
   display: none;
