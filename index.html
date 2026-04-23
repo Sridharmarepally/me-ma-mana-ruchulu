@@ -14,6 +14,16 @@
 </head>
 <body>
 
+  <!-- DEBUG: Remove after testing -->
+  <div id="debugWidth" style="position:fixed;top:72px;left:8px;background:red;color:white;padding:4px 10px;font-size:11px;z-index:9999;border-radius:4px;font-family:monospace;"></div>
+  <script>
+    function showWidth() {
+      document.getElementById('debugWidth').textContent = 'Width: ' + window.innerWidth + 'px';
+    }
+    window.addEventListener('load', showWidth);
+    window.addEventListener('resize', showWidth);
+  </script>
+
   <!-- ===== HEADER / NAVBAR ===== -->
   <header class="header" id="header">
     <div class="container header-content">

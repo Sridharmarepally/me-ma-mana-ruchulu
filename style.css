@@ -2153,9 +2153,9 @@ button {
   .section-title { font-size: 1.6rem; }
   .menu-section, .contact-section { padding: 70px 0; }
 
-  /* Menu grid: 2 columns */
+  /* Menu grid: flexible 2 columns, falls to 1 on narrow */
   .menu-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 16px;
   }
 
@@ -2192,9 +2192,10 @@ button {
 
 
 /* ============================================================
-   MOBILE PHONES (max-width: 480px)
+   MOBILE PHONES (max-width: 576px)
+   Covers all phones including larger ones like iPhone Pro Max
    ============================================================ */
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   /* ---- PERFORMANCE: Kill all heavy effects ---- */
   .menu-blobs, .menu-spotlight, .rangoli-layer { display: none; }
   .menu-section::after { display: none; }
