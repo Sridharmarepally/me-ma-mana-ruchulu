@@ -232,18 +232,26 @@ if (isDashboardPage) {
   // In-memory cache of all fetched orders (used for filtering without refetch)
   let allOrders = [];
 
-  // DOM references for toolbar + summary
-  const searchInput  = document.getElementById("searchInput");
-  const statusFilter = document.getElementById("statusFilter");
-  const dateFilter   = document.getElementById("dateFilter");
-  const sumToday     = document.getElementById("sumToday");
-  const sumPending   = document.getElementById("sumPending");
-  const sumCompleted = document.getElementById("sumCompleted");
-  const sumRevenue   = document.getElementById("sumRevenue");
+  // Check if today (treats both ISO string + Firestore timestamp)
+  function isToday(createdAt) {
+    if (!createdAt) return false;
+    try {
+      const d = new Date(createdAt);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() &&
+             d.getMonth()    === now.getMonth() &&
+             d.getDate()     === now.getDate();
+    } catch (e) {
+      return false;
+    }
+  }
 
   // Update summary cards based on ALL orders (not filtered)
   function updateSummary(orders) {
-    const todayStr = new Date().toDateString();
+    const sumToday     = document.getElementById("sumToday");
+    const sumPending   = document.getElementById("sumPending");
+    const sumCompleted = document.getElementById("sumCompleted");
+    const sumRevenue   = document.getElementById("sumRevenue");
 
     let todayCount = 0;
     let pendingCount = 0;
@@ -255,41 +263,41 @@ if (isDashboardPage) {
       revenue += Number(o.total || 0);
       if (status === "pending") pendingCount++;
       if (status === "completed") completedCount++;
-
-      if (o.createdAt) {
-        const orderDate = new Date(o.createdAt).toDateString();
-        if (orderDate === todayStr) todayCount++;
-      }
+      if (isToday(o.createdAt)) todayCount++;
     });
 
-    sumToday.textContent     = todayCount;
-    sumPending.textContent   = pendingCount;
-    sumCompleted.textContent = completedCount;
-    sumRevenue.textContent   = "₹" + revenue.toLocaleString("en-IN");
+    console.log("📊 Summary:", { todayCount, pendingCount, completedCount, revenue, total: orders.length });
+
+    if (sumToday)     sumToday.textContent     = todayCount;
+    if (sumPending)   sumPending.textContent   = pendingCount;
+    if (sumCompleted) sumCompleted.textContent = completedCount;
+    if (sumRevenue)   sumRevenue.textContent   = "₹" + revenue.toLocaleString("en-IN");
   }
 
   // Apply search + filters on cached data
   function applyFilters() {
-    const query      = (searchInput?.value || "").trim().toLowerCase();
-    const statusVal  = statusFilter?.value || "all";
-    const dateVal    = dateFilter?.value || "all";
-    const todayStr   = new Date().toDateString();
+    const searchInput  = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const dateFilter   = document.getElementById("dateFilter");
+
+    const query     = (searchInput  && searchInput.value  || "").trim().toLowerCase();
+    const statusVal = (statusFilter && statusFilter.value || "all");
+    const dateVal   = (dateFilter   && dateFilter.value   || "all");
+
+    console.log("🔍 Applying filters:", { query, statusVal, dateVal, totalOrders: allOrders.length });
 
     const filtered = allOrders.filter(o => {
       // Status filter
       if (statusVal !== "all" && (o.status || "pending") !== statusVal) return false;
 
-      // Date filter
-      if (dateVal === "today") {
-        if (!o.createdAt) return false;
-        const d = new Date(o.createdAt).toDateString();
-        if (d !== todayStr) return false;
-      }
+      // Date filter (today only)
+      if (dateVal === "today" && !isToday(o.createdAt)) return false;
 
-      // Search (name OR phone)
+      // Search (customer name OR phone)
       if (query) {
-        const name  = (o.customer?.name  || "").toLowerCase();
-        const phone = (o.customer?.phone || "").toLowerCase();
+        const customer = o.customer || {};
+        const name  = String(customer.name  || "").toLowerCase();
+        const phone = String(customer.phone || "").toLowerCase();
         if (!name.includes(query) && !phone.includes(query)) return false;
       }
 
@@ -297,6 +305,26 @@ if (isDashboardPage) {
     });
 
     renderOrders(filtered);
+  }
+
+  // Wire up live search + filter events ONCE (after DOM ready)
+  function wireToolbarEvents() {
+    const searchInput  = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const dateFilter   = document.getElementById("dateFilter");
+
+    if (searchInput && !searchInput._wired) {
+      searchInput.addEventListener("input", applyFilters);
+      searchInput._wired = true;
+    }
+    if (statusFilter && !statusFilter._wired) {
+      statusFilter.addEventListener("change", applyFilters);
+      statusFilter._wired = true;
+    }
+    if (dateFilter && !dateFilter._wired) {
+      dateFilter.addEventListener("change", applyFilters);
+      dateFilter._wired = true;
+    }
   }
 
   // Render a given list of orders (full re-render each call)
@@ -408,6 +436,7 @@ if (isDashboardPage) {
 
       const json = await res.json();
       const documents = json.documents || [];
+      console.log("📋 Fetched", documents.length, "orders from Firestore");
 
       // Parse + sort newest first
       const orders = documents.map(parseDoc);
@@ -419,6 +448,9 @@ if (isDashboardPage) {
 
       // Cache for filtering
       allOrders = orders;
+
+      // Wire up events if not yet (safety — in case dashboard wasn't visible when listenToOrders ran)
+      wireToolbarEvents();
 
       // Summary always reflects ALL orders
       updateSummary(allOrders);
@@ -444,15 +476,13 @@ if (isDashboardPage) {
     }
   }
 
-  // Wire up search + filter events (local filtering, no refetch)
-  if (searchInput) searchInput.addEventListener("input", applyFilters);
-  if (statusFilter) statusFilter.addEventListener("change", applyFilters);
-  if (dateFilter)   dateFilter.addEventListener("change", applyFilters);
 
   // Make fetchOrders accessible to updateStatus
   window._fetchOrders = fetchOrders;
 
   function listenToOrders() {
+    // Wire up toolbar events now that the dashboard is visible
+    wireToolbarEvents();
     fetchOrders();
     // Poll every 5 seconds for near real-time updates
     setInterval(fetchOrders, 5000);
