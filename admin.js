@@ -421,6 +421,16 @@ if (isDashboardPage) {
                 </svg>
                 Notify
               </button>
+              <button class="status-btn delete-btn"
+                onclick="deleteOrder('${orderId}', '${customerName.replace(/'/g, "\\'")}')"
+                title="Delete this order">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                </svg>
+                Delete
+              </button>
             </div>
           </div>
         `;
@@ -531,6 +541,40 @@ function notifyCustomer(name, phone, status) {
 
   const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
+}
+
+
+/* ----- 8. DELETE ORDER -----
+   Shows confirmation dialog, then deletes the order
+   from Firestore via REST API DELETE.               */
+
+function deleteOrder(orderId, customerName) {
+  const name = customerName || "this customer";
+  const confirmed = confirm(
+    `Are you sure you want to delete this order from ${name}?\n\n` +
+    `This action cannot be undone.`
+  );
+
+  if (!confirmed) return;
+
+  // Fade out the card immediately for instant feedback
+  const card = document.querySelector(`[data-order-id="${orderId}"]`);
+  if (card) card.classList.add("deleting");
+
+  const url = `https://firestore.googleapis.com/v1/projects/me-ma-mana-ruchulu/databases/(default)/documents/orders/${orderId}`;
+
+  fetch(url, { method: "DELETE" })
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      console.log("🗑️ Order deleted:", orderId);
+      // Refresh order list to reflect deletion
+      if (window._fetchOrders) window._fetchOrders();
+    })
+    .catch(error => {
+      console.error("❌ Delete failed:", error.message);
+      alert("Failed to delete order. Please try again.\n\nError: " + error.message);
+      if (card) card.classList.remove("deleting");
+    });
 }
 
 

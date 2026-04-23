@@ -876,6 +876,38 @@ body {
   background: #C8E6C9;
 }
 
+/* Delete button (danger action) */
+.delete-btn {
+  background: #FFEBEE;
+  color: #C62828;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: #C62828;
+  color: var(--white);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(198, 40, 40, 0.3);
+}
+
+.delete-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+}
+
+.delete-btn svg {
+  flex-shrink: 0;
+}
+
+/* Fade-out while order is being deleted */
+.order-card.deleting {
+  opacity: 0.4;
+  transform: scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
 /* WhatsApp notify button */
 .notify-btn {
   background: #25D366;
