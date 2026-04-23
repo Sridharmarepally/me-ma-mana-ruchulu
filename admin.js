@@ -580,19 +580,30 @@ function notifyCustomer(name, phone, status) {
     return;
   }
 
-  // Status-specific friendly messages
-  const statusLabels = {
-    pending:          "received and is pending confirmation",
-    preparing:        "being prepared — your order is being prepared",
-    out_for_delivery: "on the way — your order is out for delivery",
-    delivered:        "delivered — thank you for ordering with us!",
-    completed:        "completed"
-  };
-  const statusText = statusLabels[status] || status;
+  // Custom full-message templates per status (more natural wording)
+  const messages = {
+    pending:
+      `Hi ${name}, your order has been successfully placed with *Me Ma Mana Ruchulu*! 🎉\n\n` +
+      `We'll start preparing it shortly. Thank you for ordering with us! 🙏`,
 
-  const message =
-    `Hi ${name}, your order from *Me Ma Mana Ruchulu* is now *${statusText}*. ` +
-    `Thank you for ordering with us! 🙏`;
+    preparing:
+      `Hi ${name}, your order from *Me Ma Mana Ruchulu* is now being prepared. ` +
+      `We'll let you know when it's on the way! 🍽️`,
+
+    out_for_delivery:
+      `Hi ${name}, your order from *Me Ma Mana Ruchulu* is on the way! 🛵 ` +
+      `Please keep your phone handy.`,
+
+    delivered:
+      `Hi ${name}, your order from *Me Ma Mana Ruchulu* has been delivered. ` +
+      `Thank you for ordering with us! 🙏 We hope you enjoy it!`,
+
+    completed:
+      `Hi ${name}, your order from *Me Ma Mana Ruchulu* is complete. ` +
+      `Thank you for ordering with us! 🙏`
+  };
+
+  const message = messages[status] || messages.pending;
 
   const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
