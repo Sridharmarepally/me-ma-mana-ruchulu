@@ -293,12 +293,13 @@ if (isDashboardPage) {
       // Date filter (today only)
       if (dateVal === "today" && !isToday(o.createdAt)) return false;
 
-      // Search (customer name OR phone)
+      // Search (customer name OR phone OR order ID)
       if (query) {
         const customer = o.customer || {};
-        const name  = String(customer.name  || "").toLowerCase();
-        const phone = String(customer.phone || "").toLowerCase();
-        if (!name.includes(query) && !phone.includes(query)) return false;
+        const name    = String(customer.name  || "").toLowerCase();
+        const phone   = String(customer.phone || "").toLowerCase();
+        const orderId = String(o.orderId || o._id || "").toLowerCase();
+        if (!name.includes(query) && !phone.includes(query) && !orderId.includes(query)) return false;
       }
 
       return true;
