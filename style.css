@@ -59,6 +59,7 @@ html {
   scroll-padding-top: 80px;
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -70,7 +71,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   width: 100%;
-  max-width: 100vw;
+  position: relative;
 }
 
 a {
@@ -2201,23 +2202,16 @@ button {
    Covers all phones including larger ones like iPhone Pro Max
    ============================================================ */
 @media (max-width: 576px) {
-  /* ---- OVERFLOW PREVENTION: Universal safety net ---- */
-  *,
-  *::before,
-  *::after {
-    max-width: 100%;
-  }
-
+  /* ---- OVERFLOW PREVENTION (targeted, not universal) ---- */
   section,
-  header,
-  footer,
-  main,
   .hero,
   .menu-section,
   .contact-section,
-  .footer {
+  .footer,
+  .floating-blobs,
+  .rangoli-layer {
     overflow-x: hidden;
-    max-width: 100vw;
+    max-width: 100%;
   }
 
   .container {
@@ -2225,11 +2219,24 @@ button {
     max-width: 100%;
   }
 
-  /* Clamp blob edges on mobile so they don't push viewport */
-  .blob { max-width: 90vw; }
+  /* Images never overflow */
+  img,
+  .card-img {
+    max-width: 100%;
+    height: auto;
+  }
 
-  /* Rangoli motifs stay inside viewport */
-  .rangoli-motif { max-width: 90vw; }
+  /* Menu grid and cards stay in bounds */
+  .menu-grid,
+  .contact-cards {
+    max-width: 100%;
+  }
+
+  .menu-card,
+  .contact-card {
+    max-width: 100%;
+    min-width: 0;
+  }
 
   /* ---- PERFORMANCE: Kill all heavy effects ---- */
   .menu-blobs, .menu-spotlight, .rangoli-layer { display: none; }
