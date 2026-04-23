@@ -2113,6 +2113,253 @@ button {
 
 /* ----- ORDER SUCCESS TOAST ----- */
 
+/* ----- ORDER CONFIRMATION MODAL ----- */
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.confirm-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.confirm-modal {
+  width: 100%;
+  max-width: 460px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  transform: translateY(30px) scale(0.92);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.confirm-overlay.open .confirm-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* Animated success tick */
+.confirm-icon-wrapper {
+  margin: 0 auto 18px;
+}
+
+.confirm-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #E8F5E9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: confirmPop 0.4s cubic-bezier(0.25, 1.5, 0.5, 1) 0.1s both;
+}
+
+.confirm-icon svg {
+  width: 60px;
+  height: 60px;
+}
+
+.confirm-circle {
+  stroke: #2E7D32;
+  stroke-width: 2;
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  animation: confirmCircle 0.6s ease-out 0.3s forwards;
+}
+
+.confirm-check {
+  stroke: #2E7D32;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: confirmCheck 0.4s ease-out 0.7s forwards;
+}
+
+@keyframes confirmPop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+@keyframes confirmCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes confirmCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+.confirm-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2E7D32;
+  margin-bottom: 4px;
+}
+
+.confirm-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+/* Order ID pill */
+.confirm-order-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #F1F8E9;
+  border: 1px solid #C5E1A5;
+  border-radius: 50px;
+  padding: 8px 18px;
+  margin-bottom: 22px;
+}
+
+.confirm-id-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.confirm-id-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2E7D32;
+  font-family: 'Courier New', monospace;
+}
+
+/* Order details section */
+.confirm-details {
+  text-align: left;
+  background: var(--beige);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.confirm-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.confirm-detail-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.confirm-detail-value {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.confirm-items {
+  margin: 10px 0;
+  padding: 10px 0;
+  border-top: 1px dashed var(--beige-dark);
+  border-bottom: 1px dashed var(--beige-dark);
+}
+
+.confirm-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  padding: 3px 0;
+}
+
+.confirm-item-row span:first-child {
+  color: var(--text-body);
+}
+
+.confirm-item-row span:last-child {
+  color: var(--maroon);
+  font-weight: 600;
+}
+
+.confirm-total-row {
+  padding-top: 6px;
+}
+
+.confirm-total-value {
+  font-size: 1.1rem !important;
+  color: var(--maroon) !important;
+  font-weight: 700 !important;
+}
+
+.confirm-message {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Action buttons */
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.confirm-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.confirm-btn-primary {
+  background: linear-gradient(135deg, #2E7D32, #43A047);
+  color: var(--white);
+}
+
+.confirm-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.35);
+}
+
+.confirm-btn-primary:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.confirm-btn-secondary {
+  background: var(--beige);
+  color: var(--text-dark);
+  border: 1.5px solid var(--beige-dark);
+}
+
+.confirm-btn-secondary:hover {
+  border-color: var(--maroon);
+  color: var(--maroon);
+}
+
+
 .order-toast {
   position: fixed;
   bottom: 30px;

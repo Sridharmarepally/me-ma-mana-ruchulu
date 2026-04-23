@@ -812,14 +812,31 @@ orderModalOverlay.addEventListener("click", (e) => {
 /* ----- 12. PLACE ORDER — SAVE TO FIRESTORE REST API + WHATSAPP -----
    Uses REST API directly to bypass SDK WebSocket connection issues.   */
 
+// Generate a short human-friendly order ID like "MMR-2A5F9K"
+function generateOrderId() {
+  const timestamp = Date.now().toString(36).toUpperCase().slice(-4);
+  const random = Math.random().toString(36).toUpperCase().slice(2, 6);
+  return `MMR-${timestamp}${random}`;
+}
+
+// Prevent double-submission
+let isSubmitting = false;
+
 orderForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  // Block duplicate submissions
+  if (isSubmitting) return;
+  isSubmitting = true;
 
   const name    = document.getElementById("customerName").value.trim();
   const phone   = document.getElementById("customerPhone").value.trim();
   const address = document.getElementById("customerAddress").value.trim();
   const notes   = document.getElementById("customerNotes").value.trim();
   const total   = cart.reduce((sum, c) => sum + (c.price * c.count), 0);
+
+  // Snapshot cart for confirmation display (cart will be cleared on success)
+  const cartSnapshot = cart.map(c => ({ ...c }));
 
   // Show loading
   const poText   = placeOrderBtn.querySelector(".po-text");
@@ -828,10 +845,13 @@ orderForm.addEventListener("submit", async (e) => {
   poLoader.style.display = "inline-block";
   placeOrderBtn.disabled = true;
 
-  console.log("📦 Submitting order via REST API...");
+  // Generate order ID
+  const orderId = generateOrderId();
+  console.log("📦 Submitting order", orderId);
 
-  // Build order object
+  // Build order object with orderId
   const order = {
+    orderId: orderId,
     customer: { name, phone, address },
     items: cart.map(c => ({
       name: c.name,
@@ -846,12 +866,13 @@ orderForm.addEventListener("submit", async (e) => {
     createdAt: new Date().toISOString()
   };
 
-  // Build WhatsApp message
+  // Build WhatsApp message (includes order ID)
   const itemLines = cart.map(c =>
     `${c.name} (${c.qty}) × ${c.count} = ₹${c.price * c.count}`
   ).join("\n");
 
   const waMessage = `*New Order — Me Ma Mana Ruchulu*\n\n` +
+    `*Order ID:* ${orderId}\n` +
     `*Customer:* ${name}\n*Phone:* ${phone}\n` +
     (address ? `*Address:* ${address}\n` : "") +
     `\n*Items:*\n${itemLines}\n\n*Total: ₹${total}*` +
@@ -861,25 +882,28 @@ orderForm.addEventListener("submit", async (e) => {
 
   try {
     // Save to Firestore via REST API
-    console.log("🔥 Sending to Firestore REST API...");
     await saveOrderToFirestore(order);
 
-    // Success — clear cart and show confirmation
+    // Success — clear cart and form
     cart = [];
     saveCart();
     orderForm.reset();
     closeOrderModal();
 
-    // Show success toast
-    orderToast.classList.add("show");
-    setTimeout(() => orderToast.classList.remove("show"), 4000);
+    // Show confirmation modal with all order details
+    showConfirmation({
+      orderId,
+      name,
+      items: cartSnapshot,
+      total,
+      waURL
+    });
 
     // Open WhatsApp after brief delay
-    setTimeout(() => window.open(waURL, "_blank"), 500);
+    setTimeout(() => window.open(waURL, "_blank"), 800);
 
   } catch (error) {
     console.error("❌ Order failed:", error.message);
-
     alert("Order failed: " + error.message + "\n\nYour order will be sent via WhatsApp instead.");
     window.open(waURL, "_blank");
 
@@ -887,7 +911,57 @@ orderForm.addEventListener("submit", async (e) => {
     poText.style.display = "inline";
     poLoader.style.display = "none";
     placeOrderBtn.disabled = false;
+    isSubmitting = false;
   }
+});
+
+
+/* ----- 12.5 ORDER CONFIRMATION MODAL ----- */
+
+const confirmOverlay    = document.getElementById("confirmOverlay");
+const confirmOrderIdEl  = document.getElementById("confirmOrderId");
+const confirmCustName   = document.getElementById("confirmCustomerName");
+const confirmItemsEl    = document.getElementById("confirmItems");
+const confirmTotalEl    = document.getElementById("confirmTotal");
+const confirmOrderAgain = document.getElementById("confirmOrderAgain");
+const confirmGoHome     = document.getElementById("confirmGoHome");
+
+function showConfirmation({ orderId, name, items, total }) {
+  confirmOrderIdEl.textContent = orderId;
+  confirmCustName.textContent  = name;
+  confirmTotalEl.textContent   = "₹" + total;
+
+  confirmItemsEl.innerHTML = items.map(item =>
+    `<div class="confirm-item-row">
+      <span>${item.name} (${item.qty}) × ${item.count}</span>
+      <span>₹${item.price * item.count}</span>
+    </div>`
+  ).join("");
+
+  confirmOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeConfirmation() {
+  confirmOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+// "Go Back to Home" — close modal, scroll to top
+confirmGoHome.addEventListener("click", () => {
+  closeConfirmation();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// "Order Again" — close modal, scroll to menu
+confirmOrderAgain.addEventListener("click", () => {
+  closeConfirmation();
+  document.getElementById("menu").scrollIntoView({ behavior: "smooth" });
+});
+
+// Close if user taps outside the modal
+confirmOverlay.addEventListener("click", (e) => {
+  if (e.target === confirmOverlay) closeConfirmation();
 });
 
 

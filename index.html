@@ -452,6 +452,49 @@
     </div>
   </div>
 
+  <!-- ===== ORDER CONFIRMATION MODAL ===== -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-modal" id="confirmModal">
+      <div class="confirm-icon-wrapper">
+        <div class="confirm-icon">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <circle class="confirm-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="confirm-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <h2 class="confirm-title">Order Placed Successfully!</h2>
+      <p class="confirm-subtitle">Thank you for your order</p>
+
+      <div class="confirm-order-id">
+        <span class="confirm-id-label">Order ID</span>
+        <span class="confirm-id-value" id="confirmOrderId">—</span>
+      </div>
+
+      <div class="confirm-details">
+        <div class="confirm-detail-row">
+          <span class="confirm-detail-label">Customer</span>
+          <span class="confirm-detail-value" id="confirmCustomerName">—</span>
+        </div>
+        <div class="confirm-items" id="confirmItems"></div>
+        <div class="confirm-detail-row confirm-total-row">
+          <span class="confirm-detail-label">Total Amount</span>
+          <span class="confirm-detail-value confirm-total-value" id="confirmTotal">₹0</span>
+        </div>
+      </div>
+
+      <p class="confirm-message">
+        Your order has been received. We'll confirm and deliver shortly.
+      </p>
+
+      <div class="confirm-actions">
+        <button class="confirm-btn confirm-btn-primary" id="confirmOrderAgain">Order Again</button>
+        <button class="confirm-btn confirm-btn-secondary" id="confirmGoHome">Go Back to Home</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== ORDER SUCCESS TOAST ===== -->
   <div class="order-toast" id="orderToast">
     <span class="toast-icon">✅</span>
