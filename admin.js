@@ -229,39 +229,91 @@ if (isDashboardPage) {
     return data;
   }
 
-  async function fetchOrders() {
-    console.log("📋 Fetching orders via REST API...");
-    try {
-      const res = await fetch(FIRESTORE_URL + "?pageSize=50");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  // In-memory cache of all fetched orders (used for filtering without refetch)
+  let allOrders = [];
 
-      const json = await res.json();
-      const documents = json.documents || [];
+  // DOM references for toolbar + summary
+  const searchInput  = document.getElementById("searchInput");
+  const statusFilter = document.getElementById("statusFilter");
+  const dateFilter   = document.getElementById("dateFilter");
+  const sumToday     = document.getElementById("sumToday");
+  const sumPending   = document.getElementById("sumPending");
+  const sumCompleted = document.getElementById("sumCompleted");
+  const sumRevenue   = document.getElementById("sumRevenue");
 
-      if (documents.length === 0) {
-        ordersList.innerHTML = `
-          <div class="no-orders">
-            <p>No orders yet</p>
-            <span>Orders will appear here when customers place them</span>
-          </div>
-        `;
-        ordersCount.textContent = "";
-        return;
+  // Update summary cards based on ALL orders (not filtered)
+  function updateSummary(orders) {
+    const todayStr = new Date().toDateString();
+
+    let todayCount = 0;
+    let pendingCount = 0;
+    let completedCount = 0;
+    let revenue = 0;
+
+    orders.forEach(o => {
+      const status = o.status || "pending";
+      revenue += Number(o.total || 0);
+      if (status === "pending") pendingCount++;
+      if (status === "completed") completedCount++;
+
+      if (o.createdAt) {
+        const orderDate = new Date(o.createdAt).toDateString();
+        if (orderDate === todayStr) todayCount++;
+      }
+    });
+
+    sumToday.textContent     = todayCount;
+    sumPending.textContent   = pendingCount;
+    sumCompleted.textContent = completedCount;
+    sumRevenue.textContent   = "₹" + revenue.toLocaleString("en-IN");
+  }
+
+  // Apply search + filters on cached data
+  function applyFilters() {
+    const query      = (searchInput?.value || "").trim().toLowerCase();
+    const statusVal  = statusFilter?.value || "all";
+    const dateVal    = dateFilter?.value || "all";
+    const todayStr   = new Date().toDateString();
+
+    const filtered = allOrders.filter(o => {
+      // Status filter
+      if (statusVal !== "all" && (o.status || "pending") !== statusVal) return false;
+
+      // Date filter
+      if (dateVal === "today") {
+        if (!o.createdAt) return false;
+        const d = new Date(o.createdAt).toDateString();
+        if (d !== todayStr) return false;
       }
 
-      // Parse all documents
-      const orders = documents.map(parseDoc);
+      // Search (name OR phone)
+      if (query) {
+        const name  = (o.customer?.name  || "").toLowerCase();
+        const phone = (o.customer?.phone || "").toLowerCase();
+        if (!name.includes(query) && !phone.includes(query)) return false;
+      }
 
-      // Sort newest first
-      orders.sort((a, b) => {
-        const dateA = new Date(a.createdAt || 0);
-        const dateB = new Date(b.createdAt || 0);
-        return dateB - dateA;
-      });
+      return true;
+    });
 
-      console.log("✅ Loaded", orders.length, "orders");
-      ordersCount.textContent = `(${orders.length})`;
-      ordersList.innerHTML = "";
+    renderOrders(filtered);
+  }
+
+  // Render a given list of orders (full re-render each call)
+  function renderOrders(orders) {
+    if (orders.length === 0) {
+      ordersList.innerHTML = `
+        <div class="no-orders">
+          <p>No matching orders</p>
+          <span>Try clearing search or changing filters</span>
+        </div>
+      `;
+      ordersCount.textContent = "(0)";
+      return;
+    }
+
+    ordersCount.textContent = `(${orders.length})`;
+    ordersList.innerHTML = "";
 
       orders.forEach(order => {
         const orderId = order._id;
@@ -346,12 +398,56 @@ if (isDashboardPage) {
         `;
         ordersList.appendChild(card);
       });
+  }
+
+  // Fetch orders from Firestore and update cache + UI
+  async function fetchOrders() {
+    try {
+      const res = await fetch(FIRESTORE_URL + "?pageSize=100");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const json = await res.json();
+      const documents = json.documents || [];
+
+      // Parse + sort newest first
+      const orders = documents.map(parseDoc);
+      orders.sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0);
+        const dateB = new Date(b.createdAt || 0);
+        return dateB - dateA;
+      });
+
+      // Cache for filtering
+      allOrders = orders;
+
+      // Summary always reflects ALL orders
+      updateSummary(allOrders);
+
+      // Handle empty state
+      if (allOrders.length === 0) {
+        ordersList.innerHTML = `
+          <div class="no-orders">
+            <p>No orders yet</p>
+            <span>Orders will appear here when customers place them</span>
+          </div>
+        `;
+        ordersCount.textContent = "";
+        return;
+      }
+
+      // Apply current filters + search to render
+      applyFilters();
 
     } catch (error) {
       console.error("❌ Failed to fetch orders:", error.message);
       ordersList.innerHTML = `<p class="order-error">Failed to load orders: ${error.message}</p>`;
     }
   }
+
+  // Wire up search + filter events (local filtering, no refetch)
+  if (searchInput) searchInput.addEventListener("input", applyFilters);
+  if (statusFilter) statusFilter.addEventListener("change", applyFilters);
+  if (dateFilter)   dateFilter.addEventListener("change", applyFilters);
 
   // Make fetchOrders accessible to updateStatus
   window._fetchOrders = fetchOrders;

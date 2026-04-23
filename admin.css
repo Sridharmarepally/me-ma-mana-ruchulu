@@ -511,6 +511,167 @@ body {
    ORDERS SECTION
    ============================================================ */
 
+/* ============================================================
+   SUMMARY CARDS (top of dashboard)
+   ============================================================ */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--beige-dark);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.summary-today::before     { background: #1565C0; }
+.summary-pending::before   { background: #E65100; }
+.summary-completed::before { background: #2E7D32; }
+.summary-revenue::before   { background: var(--gold); }
+
+.summary-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.summary-revenue .summary-value {
+  color: var(--maroon);
+}
+
+
+/* ============================================================
+   SEARCH + FILTER TOOLBAR
+   ============================================================ */
+
+.orders-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.search-wrapper {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: var(--text-dark);
+  background: var(--white);
+  border: 1.5px solid var(--beige-dark);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#searchInput:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(197, 160, 68, 0.15);
+}
+
+.filter-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--text-dark);
+  background: var(--white);
+  border: 1.5px solid var(--beige-dark);
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  min-width: 140px;
+}
+
+.filter-select:focus,
+.filter-select:hover {
+  border-color: var(--gold);
+}
+
+
+/* Mobile toolbar */
+@media (max-width: 576px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .summary-value {
+    font-size: 1.3rem;
+  }
+
+  .orders-toolbar {
+    flex-direction: column;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-select {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+
 .orders-section {
   margin-bottom: 36px;
 }
