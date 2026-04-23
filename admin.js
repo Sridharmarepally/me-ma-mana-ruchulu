@@ -193,98 +193,189 @@ if (isDashboardPage) {
   }
 
 
-  /* ----- 5. REAL-TIME ORDER LISTENER -----
-     Uses onSnapshot for live updates — no refresh needed.
-     New orders appear automatically.                       */
+  /* ----- 5. FETCH ORDERS VIA REST API -----
+     Uses Firestore REST API (same fix as customer side).
+     Polls every 15 seconds for near-real-time updates.    */
 
-  function listenToOrders() {
-    db.collection("orders")
-      .orderBy("createdAt", "desc")
-      .limit(50)
-      .onSnapshot(snapshot => {
-        if (snapshot.empty) {
-          ordersList.innerHTML = `
-            <div class="no-orders">
-              <p>No orders yet</p>
-              <span>Orders will appear here in real-time</span>
-            </div>
-          `;
-          ordersCount.textContent = "";
-          return;
-        }
+  const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/orders`;
 
-        ordersCount.textContent = `(${snapshot.size})`;
-        ordersList.innerHTML = "";
+  // Parse Firestore REST value to JS
+  function parseValue(val) {
+    if (!val) return null;
+    if ("stringValue" in val) return val.stringValue;
+    if ("integerValue" in val) return Number(val.integerValue);
+    if ("doubleValue" in val) return val.doubleValue;
+    if ("booleanValue" in val) return val.booleanValue;
+    if ("nullValue" in val) return null;
+    if ("timestampValue" in val) return val.timestampValue;
+    if ("mapValue" in val) {
+      const obj = {};
+      const fields = val.mapValue.fields || {};
+      for (const key in fields) obj[key] = parseValue(fields[key]);
+      return obj;
+    }
+    if ("arrayValue" in val) {
+      return (val.arrayValue.values || []).map(parseValue);
+    }
+    return null;
+  }
 
-        snapshot.forEach(doc => {
-          const order = doc.data();
-          const orderId = doc.id;
-          const time = order.createdAt
-            ? order.createdAt.toDate().toLocaleString("en-IN", {
+  // Parse a full Firestore REST document
+  function parseDoc(doc) {
+    const fields = doc.fields || {};
+    const data = {};
+    for (const key in fields) data[key] = parseValue(fields[key]);
+    data._id = doc.name.split("/").pop();
+    return data;
+  }
+
+  async function fetchOrders() {
+    console.log("📋 Fetching orders via REST API...");
+    try {
+      const res = await fetch(FIRESTORE_URL + "?pageSize=50");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const json = await res.json();
+      const documents = json.documents || [];
+
+      if (documents.length === 0) {
+        ordersList.innerHTML = `
+          <div class="no-orders">
+            <p>No orders yet</p>
+            <span>Orders will appear here when customers place them</span>
+          </div>
+        `;
+        ordersCount.textContent = "";
+        return;
+      }
+
+      // Parse all documents
+      const orders = documents.map(parseDoc);
+
+      // Sort newest first
+      orders.sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0);
+        const dateB = new Date(b.createdAt || 0);
+        return dateB - dateA;
+      });
+
+      console.log("✅ Loaded", orders.length, "orders");
+      ordersCount.textContent = `(${orders.length})`;
+      ordersList.innerHTML = "";
+
+      orders.forEach(order => {
+        const orderId = order._id;
+
+        // Safe fallbacks
+        const customer      = order.customer || {};
+        const customerName  = customer.name  || "Guest";
+        const customerPhone = customer.phone || "N/A";
+        const customerAddr  = customer.address || "";
+        const items         = Array.isArray(order.items) ? order.items : [];
+        const total         = order.total || 0;
+        const notes         = order.notes || "";
+        const status        = order.status || "pending";
+
+        // Parse timestamp
+        let time = "Just now";
+        try {
+          if (order.createdAt) {
+            time = new Date(order.createdAt).toLocaleString("en-IN", {
               dateStyle: "medium",
               timeStyle: "short"
-            })
-            : "Just now";
+            });
+          }
+        } catch (e) {
+          time = "Unknown time";
+        }
 
-          const statusClass = order.status === "completed" ? "status-done"
-            : order.status === "preparing" ? "status-prep"
-              : "status-pending";
+        const statusClass = status === "completed" ? "status-done"
+          : status === "preparing" ? "status-prep"
+            : "status-pending";
 
-          const statusLabel = order.status === "completed" ? "Completed"
-            : order.status === "preparing" ? "Preparing"
-              : "Pending";
+        const statusLabel = status === "completed" ? "Completed"
+          : status === "preparing" ? "Preparing"
+            : "Pending";
 
-          const itemsHtml = order.items.map(item =>
-            `<div class="order-item-row">
-              <span>${item.name} (${item.qty}) × ${item.count}</span>
-              <span>₹${item.subtotal}</span>
-            </div>`
-          ).join("");
+        const itemsHtml = items.map(item =>
+          `<div class="order-item-row">
+            <span>${item?.name || "Unknown"} (${item?.qty || "-"}) × ${item?.count || 1}</span>
+            <span>₹${item?.subtotal || item?.price || 0}</span>
+          </div>`
+        ).join("") || '<div class="order-item-row"><span>No items</span><span>-</span></div>';
 
-          const card = document.createElement("div");
-          card.className = "order-card";
-          card.innerHTML = `
-            <div class="order-card-top">
-              <div class="order-customer">
-                <strong>${order.customer.name}</strong>
-                <a href="tel:${order.customer.phone}" class="order-phone">${order.customer.phone}</a>
-              </div>
-              <div class="order-meta">
-                <span class="order-time">${time}</span>
-                <span class="order-status ${statusClass}">${statusLabel}</span>
-              </div>
+        const card = document.createElement("div");
+        card.className = "order-card";
+        card.innerHTML = `
+          <div class="order-card-top">
+            <div class="order-customer">
+              <strong>${customerName}</strong>
+              ${customerPhone !== "N/A"
+                ? `<a href="tel:${customerPhone}" class="order-phone">${customerPhone}</a>`
+                : `<span class="order-phone">No phone</span>`
+              }
             </div>
-            ${order.customer.address ? `<p class="order-address">📍 ${order.customer.address}</p>` : ""}
-            <div class="order-items-list">${itemsHtml}</div>
-            ${order.notes ? `<p class="order-notes">📝 ${order.notes}</p>` : ""}
-            <div class="order-card-bottom">
-              <span class="order-total">Total: ₹${order.total}</span>
-              <div class="order-actions">
-                <button class="status-btn prep-btn" onclick="updateStatus('${orderId}', 'preparing')" ${order.status !== 'pending' ? 'disabled' : ''}>
-                  Preparing
-                </button>
-                <button class="status-btn done-btn" onclick="updateStatus('${orderId}', 'completed')" ${order.status === 'completed' ? 'disabled' : ''}>
-                  Done
-                </button>
-              </div>
+            <div class="order-meta">
+              <span class="order-time">${time}</span>
+              <span class="order-status ${statusClass}">${statusLabel}</span>
             </div>
-          `;
-          ordersList.appendChild(card);
-        });
-      }, error => {
-        ordersList.innerHTML = `<p class="order-error">Failed to load orders: ${error.message}</p>`;
+          </div>
+          ${customerAddr ? `<p class="order-address">📍 ${customerAddr}</p>` : ""}
+          <div class="order-items-list">${itemsHtml}</div>
+          ${notes ? `<p class="order-notes">📝 ${notes}</p>` : ""}
+          <div class="order-card-bottom">
+            <span class="order-total">Total: ₹${total}</span>
+            <div class="order-actions">
+              <button class="status-btn prep-btn" onclick="updateStatus('${orderId}', 'preparing')" ${status !== 'pending' ? 'disabled' : ''}>
+                Preparing
+              </button>
+              <button class="status-btn done-btn" onclick="updateStatus('${orderId}', 'completed')" ${status === 'completed' ? 'disabled' : ''}>
+                Done
+              </button>
+            </div>
+          </div>
+        `;
+        ordersList.appendChild(card);
       });
+
+    } catch (error) {
+      console.error("❌ Failed to fetch orders:", error.message);
+      ordersList.innerHTML = `<p class="order-error">Failed to load orders: ${error.message}</p>`;
+    }
+  }
+
+  // Make fetchOrders accessible to updateStatus
+  window._fetchOrders = fetchOrders;
+
+  function listenToOrders() {
+    fetchOrders();
+    setInterval(fetchOrders, 15000);
   }
 }
 
 
-/* ----- 6. UPDATE ORDER STATUS -----
-   Called from status buttons in order cards. */
+/* ----- 6. UPDATE ORDER STATUS (REST API) -----
+   Called from status buttons in order cards.    */
 
 function updateStatus(orderId, newStatus) {
-  db.collection("orders").doc(orderId).update({
-    status: newStatus
-  }).catch(error => {
+  const url = `https://firestore.googleapis.com/v1/projects/me-ma-mana-ruchulu/databases/(default)/documents/orders/${orderId}?updateMask.fieldPaths=status`;
+
+  fetch(url, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      fields: {
+        status: { stringValue: newStatus }
+      }
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    console.log("✅ Status updated to:", newStatus);
+    if (window._fetchOrders) window._fetchOrders();
+  })
+  .catch(error => {
     alert("Failed to update status: " + error.message);
   });
 }
+
