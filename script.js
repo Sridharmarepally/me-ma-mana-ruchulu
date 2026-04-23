@@ -679,9 +679,10 @@ function updateCartUI() {
   const totalItems = cart.reduce((sum, c) => sum + c.count, 0);
   const totalAmount = cart.reduce((sum, c) => sum + (c.price * c.count), 0);
 
-  // Badge + float button
+  // Badge + float button — always visible, badge hidden when empty
   cartBadge.textContent = totalItems;
-  cartFloatBtn.style.display = totalItems > 0 ? "flex" : "none";
+  cartBadge.style.display = totalItems > 0 ? "flex" : "none";
+  cartFloatBtn.style.display = "flex";
 
   // Cart body
   if (cart.length === 0) {
