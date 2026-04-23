@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Me Ma Mana Ruchulu | Traditional Telugu Homemade Food</title>
+  <meta name="description" content="Order authentic homemade Telugu snacks, sweets, powders, pickles and fryums from Me Ma Mana Ruchulu. Fresh, traditional recipes delivered to your doorstep.">
+  <link rel="icon" href="images/logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+</head>
+<body>
+
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header class="header" id="header">
+    <div class="container header-content">
+      <a href="#" class="logo-link">
+        <img src="images/logo.jpg" alt="Me Ma Mana Ruchulu Logo" class="logo-img">
+        <div class="logo-text">
+          <h1 class="brand-name">Me Ma Mana Ruchulu</h1>
+          <p class="brand-tagline">సాంప్రదాయ తెలుగు ఇంటి వంటలు</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#menu" class="nav-link">Menu</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV OVERLAY ===== -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#home" class="mobile-nav-link">Home</a>
+    <a href="#menu" class="mobile-nav-link">Menu</a>
+    <a href="#contact" class="mobile-nav-link">Contact</a>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <!-- Floating decorative blobs -->
+    <div class="floating-blobs hero-blobs">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+      <span class="blob blob-4"></span>
+      <span class="blob blob-5"></span>
+    </div>
+    <div class="container hero-content" data-parallax-content>
+      <img src="images/logo.jpg" alt="Me Ma Mana Ruchulu" class="hero-logo">
+      <h2 class="hero-title">Me Ma Mana Ruchulu</h2>
+      <p class="hero-subtitle">Traditional Telugu Kitchen</p>
+      <p class="hero-description">
+        Authentic homemade snacks, sweets, powders, pickles & fryums
+        <br>made with love and traditional recipes
+      </p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn btn-primary">View Menu</a>
+        <a href="https://wa.me/919502043575?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20your%20products."
+           target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          WhatsApp Us
+        </a>
+      </div>
+      <div class="hero-badges">
+        <span class="badge">🏡 100% Homemade</span>
+        <span class="badge">🌱 No Preservatives</span>
+        <span class="badge">👩‍🍳 Traditional Recipes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider: Hero -> Menu -->
+  <div class="wave-divider wave-hero-to-menu">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,50 1440,60 L1440,100 L0,100 Z" fill="var(--beige)"/>
+      <path d="M0,70 C320,110 680,20 1080,70 C1280,95 1400,60 1440,70 L1440,100 L0,100 Z" fill="var(--beige)" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- ===== MENU SECTION ===== -->
+  <section class="menu-section" id="menu">
+    <!-- Central radial spotlight — depth surface under cards -->
+    <div class="menu-spotlight"></div>
+
+    <!-- Floating decorative blobs for menu -->
+    <div class="floating-blobs menu-blobs">
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+      <span class="blob blob-c"></span>
+      <span class="blob blob-d"></span>
+      <span class="blob blob-e"></span>
+      <span class="blob blob-f"></span>
+      <span class="blob blob-g"></span>
+    </div>
+
+    <!-- Grain texture overlay -->
+    <div class="menu-grain"></div>
+
+    <!-- Traditional rangoli / temple motif patterns -->
+    <div class="rangoli-layer">
+      <!-- Top-left corner rangoli -->
+      <svg class="rangoli-motif motif-tl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.8">
+          <!-- Outer petals -->
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(0,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(45,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(90,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(135,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(180,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(225,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(270,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(315,100,100)"/>
+          <!-- Inner rings -->
+          <circle cx="100" cy="100" r="55"/>
+          <circle cx="100" cy="100" r="35"/>
+          <circle cx="100" cy="100" r="15"/>
+          <!-- Inner petals -->
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(0,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(60,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(120,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(180,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(240,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(300,100,100)"/>
+          <!-- Center dot cluster -->
+          <circle cx="100" cy="100" r="4" fill="currentColor"/>
+          <circle cx="100" cy="82" r="2.5" fill="currentColor"/>
+          <circle cx="100" cy="118" r="2.5" fill="currentColor"/>
+          <circle cx="82" cy="100" r="2.5" fill="currentColor"/>
+          <circle cx="118" cy="100" r="2.5" fill="currentColor"/>
+        </g>
+      </svg>
+
+      <!-- Bottom-right corner rangoli -->
+      <svg class="rangoli-motif motif-br" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.8">
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(0,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(45,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(90,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(135,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(180,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(225,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(270,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(315,100,100)"/>
+          <circle cx="100" cy="100" r="55"/>
+          <circle cx="100" cy="100" r="35"/>
+          <circle cx="100" cy="100" r="15"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(0,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(60,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(120,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(180,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(240,100,100)"/>
+          <ellipse cx="100" cy="60" rx="8" ry="22" transform="rotate(300,100,100)"/>
+          <circle cx="100" cy="100" r="4" fill="currentColor"/>
+          <circle cx="100" cy="82" r="2.5" fill="currentColor"/>
+          <circle cx="100" cy="118" r="2.5" fill="currentColor"/>
+          <circle cx="82" cy="100" r="2.5" fill="currentColor"/>
+          <circle cx="118" cy="100" r="2.5" fill="currentColor"/>
+        </g>
+      </svg>
+
+      <!-- Center-top temple gopuram motif -->
+      <svg class="rangoli-motif motif-ct" viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.7">
+          <!-- Temple tower tiers -->
+          <rect x="55" y="160" width="50" height="30" rx="2"/>
+          <rect x="50" y="130" width="60" height="35" rx="2"/>
+          <rect x="55" y="100" width="50" height="35" rx="2"/>
+          <rect x="60" y="72" width="40" height="32" rx="2"/>
+          <rect x="65" y="48" width="30" height="28" rx="2"/>
+          <!-- Dome/Kalasam -->
+          <ellipse cx="80" cy="42" rx="12" ry="8"/>
+          <line x1="80" y1="34" x2="80" y2="18"/>
+          <circle cx="80" cy="16" r="4"/>
+          <circle cx="80" cy="16" r="2" fill="currentColor"/>
+          <!-- Tier decorations -->
+          <line x1="60" y1="145" x2="100" y2="145"/>
+          <line x1="58" y1="115" x2="102" y2="115"/>
+          <line x1="62" y1="86" x2="98" y2="86"/>
+          <line x1="68" y1="60" x2="92" y2="60"/>
+          <!-- Base -->
+          <rect x="45" y="188" width="70" height="8" rx="2"/>
+          <line x1="45" y1="200" x2="115" y2="200"/>
+          <!-- Small arches on base -->
+          <path d="M58,188 Q65,178 72,188"/>
+          <path d="M78,188 Q85,178 92,188"/>
+        </g>
+      </svg>
+
+      <!-- Mid-left paisley / mango motif -->
+      <svg class="rangoli-motif motif-ml" viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.7">
+          <!-- Paisley body -->
+          <path d="M60,20 Q95,40 95,90 Q95,150 60,170 Q25,150 25,90 Q25,40 60,20 Z"/>
+          <!-- Inner paisley -->
+          <path d="M60,40 Q82,55 82,90 Q82,135 60,150 Q38,135 38,90 Q38,55 60,40 Z"/>
+          <!-- Inner curl -->
+          <path d="M60,60 Q72,70 72,90 Q72,118 60,128 Q48,118 48,90 Q48,70 60,60 Z"/>
+          <!-- Spine line -->
+          <line x1="60" y1="45" x2="60" y2="145"/>
+          <!-- Leaf veins -->
+          <path d="M60,65 Q72,75 60,85"/>
+          <path d="M60,65 Q48,75 60,85"/>
+          <path d="M60,90 Q75,100 60,110"/>
+          <path d="M60,90 Q45,100 60,110"/>
+          <!-- Top curl -->
+          <path d="M60,20 Q70,10 75,18 Q78,30 60,35"/>
+          <!-- Base dots -->
+          <circle cx="60" cy="155" r="3" fill="currentColor"/>
+          <circle cx="50" cy="145" r="2" fill="currentColor"/>
+          <circle cx="70" cy="145" r="2" fill="currentColor"/>
+        </g>
+      </svg>
+
+      <!-- Mid-right small kolam dots pattern -->
+      <svg class="rangoli-motif motif-mr" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor" stroke="currentColor" stroke-width="0.5">
+          <!-- Kolam dot grid -->
+          <circle cx="70" cy="10" r="2.5"/><circle cx="35" cy="30" r="2.5"/><circle cx="105" cy="30" r="2.5"/>
+          <circle cx="10" cy="50" r="2.5"/><circle cx="70" cy="50" r="2.5"/><circle cx="130" cy="50" r="2.5"/>
+          <circle cx="35" cy="70" r="2.5"/><circle cx="105" cy="70" r="2.5"/>
+          <circle cx="10" cy="90" r="2.5"/><circle cx="70" cy="90" r="2.5"/><circle cx="130" cy="90" r="2.5"/>
+          <circle cx="35" cy="110" r="2.5"/><circle cx="105" cy="110" r="2.5"/>
+          <circle cx="70" cy="130" r="2.5"/>
+          <!-- Kolam lines connecting dots -->
+          <path d="M70,10 Q35,10 35,30 Q35,50 10,50 Q35,50 35,70 Q35,90 10,90 Q35,90 35,110 Q35,130 70,130 Q105,130 105,110 Q105,90 130,90 Q105,90 105,70 Q105,50 130,50 Q105,50 105,30 Q105,10 70,10" fill="none" stroke-width="0.8"/>
+          <!-- Inner diamond loop -->
+          <path d="M70,50 Q50,50 35,70 Q50,90 70,90 Q90,90 105,70 Q90,50 70,50" fill="none" stroke-width="0.8"/>
+          <circle cx="70" cy="70" r="5" fill="none" stroke-width="0.8"/>
+          <circle cx="70" cy="70" r="2"/>
+        </g>
+      </svg>
+
+      <!-- Bottom-left small rangoli flower -->
+      <svg class="rangoli-motif motif-bl" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.7">
+          <!-- Diamond frame -->
+          <polygon points="75,5 145,75 75,145 5,75"/>
+          <polygon points="75,20 130,75 75,130 20,75"/>
+          <!-- Petal curves inside diamond -->
+          <path d="M75,20 Q110,45 130,75 Q110,105 75,130 Q40,105 20,75 Q40,45 75,20"/>
+          <path d="M75,35 Q100,55 115,75 Q100,95 75,115 Q50,95 35,75 Q50,55 75,35"/>
+          <!-- Inner flower -->
+          <circle cx="75" cy="75" r="20"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(0,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(72,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(144,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(216,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(288,75,75)"/>
+          <circle cx="75" cy="75" r="6" fill="currentColor"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">🍽️ Our Menu</h2>
+        <p class="section-subtitle">Browse our authentic homemade products</p>
+      </div>
+
+      <!-- Category Filter Buttons -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-category="all">🏠 All Items</button>
+        <button class="filter-btn" data-category="snacks">🍿 Snacks</button>
+        <button class="filter-btn" data-category="sweets">🍬 Sweets</button>
+        <button class="filter-btn" data-category="powders">🌿 Powders</button>
+        <button class="filter-btn" data-category="pickles">🫙 Pickles</button>
+        <button class="filter-btn" data-category="fryums">🥠 Fryums</button>
+      </div>
+
+      <!-- Item Count Display -->
+      <p class="item-count reveal-fade" id="itemCount">Showing all 38 items</p>
+
+      <!-- Menu Grid -->
+      <div class="menu-grid" id="menuGrid">
+        <!-- Cards are injected by script.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider: Menu -> Contact -->
+  <div class="wave-divider wave-menu-to-contact">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C480,80 960,0 1440,40 L1440,80 L0,80 Z" fill="var(--beige)"/>
+    </svg>
+  </div>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="contact-section" id="contact">
+    <!-- Traditional motifs in contact section -->
+    <div class="rangoli-layer contact-rangoli">
+      <svg class="rangoli-motif motif-contact-r" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.8">
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(0,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(45,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(90,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(135,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(180,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(225,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(270,100,100)"/>
+          <ellipse cx="100" cy="40" rx="18" ry="40" transform="rotate(315,100,100)"/>
+          <circle cx="100" cy="100" r="55"/>
+          <circle cx="100" cy="100" r="35"/>
+          <circle cx="100" cy="100" r="15"/>
+          <circle cx="100" cy="100" r="4" fill="currentColor"/>
+        </g>
+      </svg>
+      <svg class="rangoli-motif motif-contact-l" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-width="0.7">
+          <polygon points="75,5 145,75 75,145 5,75"/>
+          <polygon points="75,20 130,75 75,130 20,75"/>
+          <circle cx="75" cy="75" r="20"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(0,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(72,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(144,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(216,75,75)"/>
+          <ellipse cx="75" cy="55" rx="6" ry="14" transform="rotate(288,75,75)"/>
+          <circle cx="75" cy="75" r="6" fill="currentColor"/>
+        </g>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">📞 Contact Us</h2>
+        <p class="section-subtitle">Place your order or get in touch</p>
+      </div>
+      <div class="contact-cards">
+        <div class="contact-card reveal-left">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <h3>Phone</h3>
+          <p><a href="tel:+919502043575">9502043575</a></p>
+          <p><a href="tel:+919676380110">9676380110</a></p>
+        </div>
+        <div class="contact-card reveal-up">
+          <div class="contact-icon whatsapp-green">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </div>
+          <h3>WhatsApp</h3>
+          <a href="https://wa.me/919502043575?text=Hi%2C%20I%20would%20like%20to%20place%20an%20order."
+             target="_blank" rel="noopener" class="btn btn-whatsapp">
+            Chat with us
+          </a>
+        </div>
+        <div class="contact-card reveal-right">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3>Timings</h3>
+          <p>Orders accepted daily</p>
+          <p>9:00 AM - 8:00 PM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CART DRAWER (Slides in from right) ===== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>🛒 Your Cart</h3>
+      <button class="cart-close" id="cartClose" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <!-- Cart items rendered by JS -->
+      <div class="cart-empty" id="cartEmpty">
+        <p>Your cart is empty</p>
+        <span>Add items from the menu</span>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="cart-total-amount" id="cartTotal">₹0</span>
+      </div>
+      <button class="cart-checkout-btn" id="cartCheckoutBtn">Proceed to Order</button>
+    </div>
+  </div>
+
+  <!-- ===== FLOATING CART BUTTON ===== -->
+  <button class="cart-float" id="cartFloatBtn" aria-label="Open cart" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+    </svg>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+
+  <!-- ===== ORDER FORM MODAL ===== -->
+  <div class="modal-overlay" id="orderModalOverlay">
+    <div class="order-modal" id="orderModal">
+      <div class="modal-header">
+        <h3>📋 Place Your Order</h3>
+        <button class="modal-close" id="orderModalClose" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <form class="order-form" id="orderForm">
+        <div class="order-form-group">
+          <label for="customerName">Your Name *</label>
+          <input type="text" id="customerName" placeholder="Enter your name" required>
+        </div>
+        <div class="order-form-group">
+          <label for="customerPhone">Phone Number *</label>
+          <input type="tel" id="customerPhone" placeholder="Enter phone number" required pattern="[0-9]{10}">
+        </div>
+        <div class="order-form-group">
+          <label for="customerAddress">Delivery Address</label>
+          <textarea id="customerAddress" placeholder="Enter delivery address (optional)" rows="2"></textarea>
+        </div>
+        <div class="order-form-group">
+          <label for="customerNotes">Special Instructions</label>
+          <input type="text" id="customerNotes" placeholder="e.g., Less spicy, extra packing">
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary" id="orderSummary"></div>
+
+        <div class="order-form-actions">
+          <button type="submit" class="place-order-btn" id="placeOrderBtn">
+            <span class="po-text">Place Order</span>
+            <span class="po-loader" style="display:none"></span>
+          </button>
+          <p class="order-also-whatsapp">Order will also be sent to WhatsApp</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== ORDER SUCCESS TOAST ===== -->
+  <div class="order-toast" id="orderToast">
+    <span class="toast-icon">✅</span>
+    <span class="toast-text">Order placed successfully!</span>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <img src="images/logo.jpg" alt="Logo" class="footer-logo">
+        <p class="footer-name">Me Ma Mana Ruchulu</p>
+        <p class="footer-tagline">సాంప్రదాయ తెలుగు ఇంటి వంటలు</p>
+      </div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 Me Ma Mana Ruchulu. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===== SCROLL PROGRESS BAR ===== -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ===== BACK TO TOP BUTTON ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- ===== FLOATING WHATSAPP BUTTON ===== -->
+  <a href="https://wa.me/919502043575?text=Hi%2C%20I%20would%20like%20to%20place%20an%20order."
+     target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <span class="whatsapp-tooltip">Order Now!</span>
+    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ===== FIREBASE SDK ===== -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="script.js"></script>
+</body>
+</html>
